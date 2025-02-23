@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="ja">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Video List</title>
+    </head>
+    <body>
+        <h1>動画一覧</h1>
+        <div id="video-container"></div>
+
+        <script>
+         fetch('files.json')
+             .then(response => response.json())
+             .then(data => {
+                 const container = document.getElementById('video-container');
+
+                 data.files.forEach(file => {
+                     const videoWrapper = document.createElement('div');
+                     videoWrapper.style.marginBottom = "20px";
+
+                     const video = document.createElement('video');
+                     video.src = "files/" + file.name;
+                     video.controls = true;
+                     video.width = 320;
+
+                     const label = document.createElement('p');
+                     label.textContent = file.name;
+
+                     videoWrapper.appendChild(label);
+                     videoWrapper.appendChild(video);
+                     container.appendChild(videoWrapper);
+                 });
+             })
+             .catch(error => console.error('Error loading JSON:', error));
+        </script>
+    </body>
+</html>
