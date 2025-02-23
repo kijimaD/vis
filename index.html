@@ -6,7 +6,7 @@
         <title>Video List</title>
     </head>
     <body>
-        <h1>動画一覧</h1>
+        <h1>videos</h1>
         <div id="video-container"></div>
 
         <script>
@@ -17,14 +17,14 @@
 
                  data.files.forEach(file => {
                      const videoWrapper = document.createElement('div');
-                     videoWrapper.style.marginBottom = "20px";
+                     videoWrapper.style.marginBottom = "60px";
 
                      const video = document.createElement('video');
-                     video.src = "files/" + file.name;
+                     video.src = "./files/" + file.name;
                      video.controls = true;
                      video.width = 320;
 
-                     const label = document.createElement('p');
+                     const label = document.createElement('li');
                      label.textContent = file.name;
 
                      videoWrapper.appendChild(label);

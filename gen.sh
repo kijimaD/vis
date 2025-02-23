@@ -7,4 +7,4 @@ set -eux
 
 cd `dirname $0`
 
-ls -1 | jq -R -s 'split("\n")[:-1] | { files: map({name: .}) }'
+ls files | jq -R -s 'split("\n")[:-1] | { files: map({name: .}) }' > files.json
