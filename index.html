@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="ja">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>vis</title>
+    </head>
+    <body>
+        <h1>vis</h1>
+        <p>my logs...</p>
+        <ul id="video-list"></ul>
+        
+        <script>
+         fetch('files.json')
+             .then(response => response.json())
+             .then(data => {
+                 const list = document.getElementById('video-list');
+
+                 data.files.forEach(file => {
+                     const listItem = document.createElement('li');
+                     const link = document.createElement('a');
+
+                     link.href = `./files/${file.name}`;
+                     link.textContent = `${file.name}`;
+                     link.target = "_blank"; // 新しいタブで開く
+
+                     listItem.appendChild(link);
+                     list.appendChild(listItem);
+                 });
+             })
+             .catch(error => console.error('Error loading JSON:', error));
+        </script>
+    </body>
+</html>
