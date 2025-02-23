@@ -3,33 +3,29 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Video List</title>
+        <title>vis</title>
     </head>
     <body>
-        <h1>videos</h1>
-        <div id="video-container"></div>
-
+        <h1>vis</h1>
+        <p>my logs...</p>
+        <ul id="video-list"></ul>
+        
         <script>
          fetch('files.json')
              .then(response => response.json())
              .then(data => {
-                 const container = document.getElementById('video-container');
+                 const list = document.getElementById('video-list');
 
                  data.files.forEach(file => {
-                     const videoWrapper = document.createElement('div');
-                     videoWrapper.style.marginBottom = "60px";
+                     const listItem = document.createElement('li');
+                     const link = document.createElement('a');
 
-                     const video = document.createElement('video');
-                     video.src = "./files/" + file.name;
-                     video.controls = true;
-                     video.width = 320;
+                     link.href = `./files/${file.name}`;
+                     link.textContent = `${file.name}`;
+                     link.target = "_blank"; // 新しいタブで開く
 
-                     const label = document.createElement('li');
-                     label.textContent = file.name;
-
-                     videoWrapper.appendChild(label);
-                     videoWrapper.appendChild(video);
-                     container.appendChild(videoWrapper);
+                     listItem.appendChild(link);
+                     list.appendChild(listItem);
                  });
              })
              .catch(error => console.error('Error loading JSON:', error));
