@@ -6,29 +6,41 @@
         <title>vis</title>
     </head>
     <body>
-        <h1>vis</h1>
+        <h2>vis</h2>
         <p>my logs...</p>
-        <ul id="video-list"></ul>
+        <table>
+            <thead>
+                <tr>
+                    <th>タイトル</th>
+                    <th>実時間</th>
+                    <th>開始</th>
+                    <th>終了</th>
+                    <th>再生長</th>
+                </tr>
+            </thead>
+            <tbody id="videoTableBody">
+            </tbody>
+        </table>
 
         <script>
-         fetch('files/files.json')
+         fetch('./files/files.json')
              .then(response => response.json())
              .then(data => {
-                 const list = document.getElementById('video-list');
+                 const tableBody = document.getElementById('videoTableBody');
 
-                 data.files.forEach(file => {
-                     const listItem = document.createElement('li');
-                     const link = document.createElement('a');
-
-                     link.href = `${file.path}`;
-                     link.textContent = `${file.name}`;
-                     link.target = "_blank"; // 新しいタブで開く
-
-                     listItem.appendChild(link);
-                     list.appendChild(listItem);
+                 data.files.reverse().forEach(file => {
+                     const row = document.createElement('tr');
+                     row.innerHTML = `
+                         <td><a href="${file.path}" target="_blank">${file.name}</a></td>
+                         <td>${file.real_duration_label}</td>
+                         <td>${file.real_start_label}</td>
+                         <td>${file.real_end_label}</td>
+                         <td>${file.duration}</td>
+                     `;
+                     tableBody.appendChild(row);
                  });
              })
-             .catch(error => console.error('Error loading JSON:', error));
+             .catch(error => console.error(error));
         </script>
     </body>
 </html>
