@@ -32,7 +32,8 @@ type VideoInfo struct {
 	RealStartLabel    string    `json:"real_start_label"`
 	RealEnd           time.Time `json:"end"`
 	RealEndLabel      string    `json:"real_end_label"`
-	Size              string    `json:"size"`
+	// 人間が読みやすい単位に調整されたファイルサイズ
+	Size string `json:"size"`
 }
 
 // FFProbeResult represents the JSON structure of ffprobe output
