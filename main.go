@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"os"
 	"path"
+	vis "vis/src"
 )
 
 func main() {
@@ -14,7 +15,7 @@ func main() {
 	}
 	targetDir := os.Args[1]
 
-	info, err := ApplyDir(targetDir)
+	info, err := vis.ApplyDir(targetDir)
 	if err != nil {
 		panic(err)
 	}
