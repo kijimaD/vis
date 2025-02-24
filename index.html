@@ -9,9 +9,9 @@
         <h1>vis</h1>
         <p>my logs...</p>
         <ul id="video-list"></ul>
-        
+
         <script>
-         fetch('files.json')
+         fetch('files/files.json')
              .then(response => response.json())
              .then(data => {
                  const list = document.getElementById('video-list');
