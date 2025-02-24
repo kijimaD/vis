@@ -39,6 +39,7 @@ func TestApplyDir(t *testing.T) {
 				RealEnd:           time.Date(2025, time.February, 24, 13, 18, 15, 0, jst),
 				RealStartLabel:    "2025-02-24T13-17-51",
 				RealEndLabel:      "2025-02-24T13-18-15",
+				Size:              "56KB",
 			},
 		},
 	}
@@ -55,4 +56,14 @@ func TestDuration(t *testing.T) {
 	assert.Equal(t, "0時間0分1秒", formatDuration(time.Second*1))
 	assert.Equal(t, "0時間1分1秒", formatDuration(time.Minute*1+time.Second*1))
 	assert.Equal(t, "1時間0分0秒", formatDuration(time.Hour*1))
+}
+
+func TestFormatSize(t *testing.T) {
+	assert.Equal(t, "1B", formatSize(1))
+	assert.Equal(t, "1KB", formatSize(1024))
+	assert.Equal(t, "1KB", formatSize(1025)) // 切り捨て
+	assert.Equal(t, "2KB", formatSize(2048))
+	assert.Equal(t, "64KB", formatSize(1024*64))
+	assert.Equal(t, "1MB", formatSize(1024*1024))
+	assert.Equal(t, "64MB", formatSize(1024*1024*64))
 }

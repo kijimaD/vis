@@ -32,6 +32,8 @@ type VideoInfo struct {
 	RealStartLabel    string    `json:"real_start_label"`
 	RealEnd           time.Time `json:"end"`
 	RealEndLabel      string    `json:"real_end_label"`
+	// 人間が読みやすい単位に調整されたファイルサイズ
+	Size string `json:"size"`
 }
 
 // FFProbeResult represents the JSON structure of ffprobe output
@@ -131,6 +133,20 @@ func formatDuration(d time.Duration) string {
 	return fmt.Sprintf("%d時間%d分%d秒", h, m, s)
 }
 
+func formatSize(bytes int64) string {
+	const unit = 1024
+	if bytes < unit {
+		return fmt.Sprintf("%dB", bytes)
+	}
+	div, exp := int64(unit), 0
+	for n := bytes / unit; n >= unit; n /= unit {
+		div *= unit
+		exp++
+	}
+
+	return fmt.Sprintf("%.0f%cB", float64(bytes)/float64(div), "KMGTPE"[exp])
+}
+
 func ApplyDir(targetDir string) (Info, error) {
 	info := Info{
 		Files: []VideoInfo{},
@@ -148,6 +164,9 @@ func ApplyDir(targetDir string) (Info, error) {
 		}
 
 		vinfo := VideoInfo{}
+		{
+			vinfo.Size = formatSize(fi.Size())
+		}
 		{
 			result, err := getFFProbeInfo(path)
 			if err != nil {
