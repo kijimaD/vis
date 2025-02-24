@@ -12,12 +12,21 @@ import (
 	"time"
 )
 
+type Info struct {
+	Files []VideoInfo `json: "files"`
+}
+
 type VideoInfo struct {
-	Name     string    `json:"name"`
-	Duration float64   `json:"duration"`
-	Start    time.Time `json:"start"`
+	// タイトル
+	Name string `json:"name"`
+	// 動画の秒数
+	Duration float64 `json:"duration"`
+	// 実際の時間を表示する
+	// 例: 01:45:23
+	RealDurationLabel string    `json:"start"`
+	RealStart         time.Time `json:"start"`
 	// 計算で得る大体の値
-	End time.Time `json:"end"`
+	RealEnd time.Time `json:"end"`
 }
 
 // FFProbeResult represents the JSON structure of ffprobe output
@@ -50,59 +59,89 @@ func getWebMDuration(filePath string) (float64, error) {
 	return duration, nil
 }
 
-type parseResult struct {
+type parseFileResult struct {
 	start time.Time
 	name  string
 }
 
-func parseFileName(raw string) (parseResult, error) {
+func parseFile(raw string) (parseFileResult, error) {
 	const fileRegexp = `^(?P<date>\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2})_(?P<name>.+?)\.webm$`
 	re, err := regexp.Compile(fileRegexp)
 	if err != nil {
-		return parseResult{}, err
+		return parseFileResult{}, err
 	}
 	matches := re.FindAllStringSubmatch(filepath.Base(raw), -1)
 	if len(matches) < 1 {
-		return parseResult{}, fmt.Errorf("invalid format: %s", raw)
+		return parseFileResult{}, fmt.Errorf("invalid format: %s", raw)
 	}
 
 	jst, err := time.LoadLocation("Asia/Tokyo")
 	if err != nil {
-		return parseResult{}, err
+		return parseFileResult{}, err
 	}
 	layout := "2006-01-02T15-04-05"
 	parsedTime, err := time.ParseInLocation(layout, matches[0][re.SubexpIndex("date")], jst)
 	if err != nil {
-		return parseResult{}, err
+		return parseFileResult{}, err
 	}
 
-	result := parseResult{
+	result := parseFileResult{
 		start: parsedTime,
 		name:  matches[0][re.SubexpIndex("name")],
 	}
+
 	return result, nil
 }
 
-func ApplyDir(targetDir string) error {
-	err := filepath.Walk(targetDir, func(path string, info os.FileInfo, err error) error {
+func formatDuration(seconds int) string {
+	h := seconds / 3600
+	m := (seconds % 3600) / 60
+	s := seconds % 60
+
+	return fmt.Sprintf("%d時間%d分%d秒", h, m, s)
+}
+
+func ApplyDir(targetDir string) (Info, error) {
+	info := Info{
+		Files: []VideoInfo{},
+	}
+
+	err := filepath.Walk(targetDir, func(path string, fi os.FileInfo, err error) error {
 		if err != nil {
 			return err
 		}
-		if info.IsDir() {
+		if fi.IsDir() {
 			return nil
 		}
-		fmt.Println(path)
-		duration, err := getWebMDuration(path)
-		if err != nil {
-			return err
+
+		vinfo := VideoInfo{}
+		{
+			duration, err := getWebMDuration(path)
+			if err != nil {
+				return err
+			}
+			vinfo.Duration = duration
 		}
-		fmt.Printf("WebM Duration: %.2f seconds\n", duration)
+		{
+			result, err := parseFile("2025-02-23T21-59-41_ダークソウル3実況を見る.webm")
+			if err != nil {
+				return err
+			}
+			vinfo.Name = result.name
+			vinfo.RealStart = result.start
+			// 2秒に1回撮ってるので
+			vinfo.RealEnd = vinfo.RealStart.Add(time.Second * time.Duration(vinfo.Duration*60*2))
+			// 2秒に1回撮ってるので
+			vinfo.RealDurationLabel = formatDuration(int(vinfo.Duration * 60 * 2))
+		}
+
+		info.Files = append(info.Files, vinfo)
 
 		return nil
 	})
 	if err != nil {
-		return err
+		return Info{}, err
 	}
 
-	return nil
+	return info, nil
 }
