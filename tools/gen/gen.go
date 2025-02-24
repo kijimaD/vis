@@ -12,6 +12,8 @@ import (
 	"time"
 )
 
+const timestampLayout = "2006-01-02T15-04-05"
+
 type Info struct {
 	Files []VideoInfo `json: "files"`
 }
@@ -30,41 +32,72 @@ type VideoInfo struct {
 }
 
 // FFProbeResult represents the JSON structure of ffprobe output
-type FFProbeResult struct {
+type FFProbeJSONResult struct {
 	Format struct {
 		Duration string `json:"duration"`
+		Tags     struct {
+			EndTime   string `json:"END_TIME"`
+			StartTime string `json:"START_TIME"`
+		}
 	} `json:"format"`
 }
 
+type FFProbeResult struct {
+	Duration float64
+	Start    time.Time
+	End      time.Time
+}
+
 // require ffprobe
-func getWebMDuration(filePath string) (float64, error) {
+func getFFProbeInfo(filePath string) (FFProbeResult, error) {
 	cmd := exec.Command("ffprobe", "-v", "quiet", "-print_format", "json", "-show_format", filePath)
 	var out bytes.Buffer
 	cmd.Stdout = &out
 
 	if err := cmd.Run(); err != nil {
-		return 0, fmt.Errorf("error running ffprobe: %w", err)
+		return FFProbeResult{}, fmt.Errorf("error running ffprobe: %w", err)
 	}
 
-	var result FFProbeResult
+	var result FFProbeJSONResult
 	if err := json.Unmarshal(out.Bytes(), &result); err != nil {
-		return 0, fmt.Errorf("error parsing JSON: %w", err)
+		return FFProbeResult{}, fmt.Errorf("error parsing JSON: %w", err)
 	}
 
-	duration, err := strconv.ParseFloat(result.Format.Duration, 64)
+	ffpResult := FFProbeResult{}
+	jst, err := time.LoadLocation("Asia/Tokyo")
 	if err != nil {
-		return 0, fmt.Errorf("error converting duration to float: %w", err)
+		return FFProbeResult{}, err
+	}
+	{
+		start, err := time.ParseInLocation(timestampLayout, result.Format.Tags.StartTime, jst)
+		if err != nil {
+			return FFProbeResult{}, err
+		}
+		ffpResult.Start = start
+	}
+	{
+		end, err := time.ParseInLocation(timestampLayout, result.Format.Tags.EndTime, jst)
+		if err != nil {
+			return FFProbeResult{}, err
+		}
+		ffpResult.End = end
+	}
+	{
+		duration, err := strconv.ParseFloat(result.Format.Duration, 64)
+		if err != nil {
+			return FFProbeResult{}, err
+		}
+		ffpResult.Duration = duration
 	}
 
-	return duration, nil
+	return ffpResult, nil
 }
 
 type parseFileResult struct {
-	start time.Time
-	name  string
+	name string
 }
 
-func parseFile(raw string) (parseFileResult, error) {
+func parseFileName(raw string) (parseFileResult, error) {
 	const fileRegexp = `^(?P<date>\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2})_(?P<name>.+?)\.webm$`
 	re, err := regexp.Compile(fileRegexp)
 	if err != nil {
@@ -75,25 +108,15 @@ func parseFile(raw string) (parseFileResult, error) {
 		return parseFileResult{}, fmt.Errorf("invalid format: %s", raw)
 	}
 
-	jst, err := time.LoadLocation("Asia/Tokyo")
-	if err != nil {
-		return parseFileResult{}, err
-	}
-	layout := "2006-01-02T15-04-05"
-	parsedTime, err := time.ParseInLocation(layout, matches[0][re.SubexpIndex("date")], jst)
-	if err != nil {
-		return parseFileResult{}, err
-	}
-
 	result := parseFileResult{
-		start: parsedTime,
-		name:  matches[0][re.SubexpIndex("name")],
+		name: matches[0][re.SubexpIndex("name")],
 	}
 
 	return result, nil
 }
 
-func formatDuration(seconds int) string {
+func formatDuration(d time.Duration) string {
+	seconds := int(d.Seconds())
 	h := seconds / 3600
 	m := (seconds % 3600) / 60
 	s := seconds % 60
@@ -116,25 +139,25 @@ func ApplyDir(targetDir string) (Info, error) {
 
 		vinfo := VideoInfo{}
 		{
-			duration, err := getWebMDuration(path)
+			result, err := getFFProbeInfo(path)
 			if err != nil {
 				return err
 			}
-			vinfo.Duration = duration
+			vinfo.Duration = result.Duration
+			vinfo.RealStart = result.Start
+			vinfo.RealEnd = result.End
 		}
 		{
-			result, err := parseFile("2025-02-23T21-59-41_ダークソウル3実況を見る.webm")
+			realDuration := vinfo.RealEnd.Sub(vinfo.RealStart)
+			vinfo.RealDurationLabel = formatDuration(realDuration)
+		}
+		{
+			result, err := parseFileName(filepath.Base(path))
 			if err != nil {
 				return err
 			}
 			vinfo.Name = result.name
-			vinfo.RealStart = result.start
-			// 2秒に1回撮ってるので
-			vinfo.RealEnd = vinfo.RealStart.Add(time.Second * time.Duration(vinfo.Duration*60*2))
-			// 2秒に1回撮ってるので
-			vinfo.RealDurationLabel = formatDuration(int(vinfo.Duration * 60 * 2))
 		}
-
 		info.Files = append(info.Files, vinfo)
 
 		return nil
