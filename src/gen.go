@@ -112,9 +112,11 @@ func parseFileName(raw string) (parseFileResult, error) {
 		return parseFileResult{}, fmt.Errorf("invalid format: %s", raw)
 	}
 
+	pname := matches[0][re.SubexpIndex("name")]
+	pdate := matches[0][re.SubexpIndex("date")]
 	result := parseFileResult{
-		path: fmt.Sprintf("./files/%s.webm", matches[0][re.SubexpIndex("name")]),
-		name: matches[0][re.SubexpIndex("name")],
+		path: fmt.Sprintf("./files/%s_%s.webm", pdate, pname),
+		name: pname,
 	}
 
 	return result, nil
@@ -154,6 +156,8 @@ func ApplyDir(targetDir string) (Info, error) {
 			vinfo.Duration = result.Duration
 			vinfo.RealStart = result.Start
 			vinfo.RealEnd = result.End
+			vinfo.RealStartLabel = vinfo.RealStart.Format(timestampLayout)
+			vinfo.RealEndLabel = vinfo.RealEnd.Format(timestampLayout)
 		}
 		{
 			realDuration := vinfo.RealEnd.Sub(vinfo.RealStart)

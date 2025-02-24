@@ -31,12 +31,14 @@ func TestApplyDir(t *testing.T) {
 	expect := Info{
 		Files: []VideoInfo{
 			VideoInfo{
-				Path:              "./files/サンプル.webm",
+				Path:              "./files/2025-02-24T13-17-51_サンプル.webm",
 				Name:              "サンプル",
 				Duration:          0.5,
 				RealDurationLabel: "0時間0分24秒",
 				RealStart:         time.Date(2025, time.February, 24, 13, 17, 51, 0, jst),
 				RealEnd:           time.Date(2025, time.February, 24, 13, 18, 15, 0, jst),
+				RealStartLabel:    "2025-02-24T13-17-51",
+				RealEndLabel:      "2025-02-24T13-18-15",
 			},
 		},
 	}
