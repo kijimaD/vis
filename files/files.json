@@ -1,8 +1,8 @@
 {
  "files": [
   {
-   "path": "./files/2025-02-22T23-30-55_ダークソウル3実況を見る.webm",
-   "name": "ダークソウル3実況を見る",
+   "path": "./files/2025-02-22T23-30-55_watch_dark_souls3.webm",
+   "name": "watch_dark_souls3",
    "duration": 42.4,
    "real_duration_label": "1時間28分15秒",
    "start": "2025-02-22T23:30:55+09:00",
@@ -12,8 +12,8 @@
    "size": "4MB"
   },
   {
-   "path": "./files/2025-02-23T09-44-49_録画スクリプトを書く.webm",
-   "name": "録画スクリプトを書く",
+   "path": "./files/2025-02-23T09-44-49_write_record_script.webm",
+   "name": "write_record_script",
    "duration": 23.55,
    "real_duration_label": "0時間49分1秒",
    "start": "2025-02-23T09:44:49+09:00",
@@ -23,8 +23,8 @@
    "size": "950KB"
   },
   {
-   "path": "./files/2025-02-23T10-35-47_ダークソウル3実況を見る.webm",
-   "name": "ダークソウル3実況を見る",
+   "path": "./files/2025-02-23T10-35-47_watch_dark_souls3.webm",
+   "name": "watch_dark_souls3",
    "duration": 93.1,
    "real_duration_label": "1時間17分34秒",
    "start": "2025-02-23T10:35:47+09:00",
@@ -34,8 +34,8 @@
    "size": "6MB"
   },
   {
-   "path": "./files/2025-02-23T13-50-47_ダークソウル3実況を見る.webm",
-   "name": "ダークソウル3実況を見る",
+   "path": "./files/2025-02-23T13-50-47_watch_dark_souls3.webm",
+   "name": "watch_dark_souls3",
    "duration": 306.75,
    "real_duration_label": "4時間15分36秒",
    "start": "2025-02-23T13:50:47+09:00",
@@ -45,8 +45,8 @@
    "size": "17MB"
   },
   {
-   "path": "./files/2025-02-24T10-09-47_終了時刻を追加する.webm",
-   "name": "終了時刻を追加する",
+   "path": "./files/2025-02-24T10-09-47_add_finishing_time.webm",
+   "name": "add_finishing_time",
    "duration": 177.5,
    "real_duration_label": "2時間27分52秒",
    "start": "2025-02-24T10:09:47+09:00",
@@ -56,8 +56,8 @@
    "size": "4MB"
   },
   {
-   "path": "./files/2025-02-24T18-46-09_ダークソウル3実況を見る.webm",
-   "name": "ダークソウル3実況を見る",
+   "path": "./files/2025-02-24T18-46-09_watch_dark_souls3.webm",
+   "name": "watch_dark_souls3",
    "duration": 260.9,
    "real_duration_label": "3時間37分24秒",
    "start": "2025-02-24T18:46:09+09:00",
@@ -65,6 +65,127 @@
    "end": "2025-02-24T22:23:33+09:00",
    "real_end_label": "2025-02-24T22-23-33",
    "size": "17MB"
+  },
+  {
+   "path": "./files/2025-02-25T00-06-05_watch_dark_souls2.webm",
+   "name": "watch_dark_souls2",
+   "duration": 125.6,
+   "real_duration_label": "1時間44分38秒",
+   "start": "2025-02-25T00:06:05+09:00",
+   "real_start_label": "2025-02-25T00-06-05",
+   "end": "2025-02-25T01:50:43+09:00",
+   "real_end_label": "2025-02-25T01-50-43",
+   "size": "9MB"
+  },
+  {
+   "path": "./files/2025-02-26T00-01-06_watch_dark_souls2.webm",
+   "name": "watch_dark_souls2",
+   "duration": 128.7,
+   "real_duration_label": "1時間47分14秒",
+   "start": "2025-02-26T00:01:06+09:00",
+   "real_start_label": "2025-02-26T00-01-06",
+   "end": "2025-02-26T01:48:20+09:00",
+   "real_end_label": "2025-02-26T01-48-20",
+   "size": "9MB"
+  },
+  {
+   "path": "./files/2025-02-26T19-14-59_watch_dark_souls2.webm",
+   "name": "watch_dark_souls2",
+   "duration": 206.3,
+   "real_duration_label": "2時間51分52秒",
+   "start": "2025-02-26T19:14:59+09:00",
+   "real_start_label": "2025-02-26T19-14-59",
+   "end": "2025-02-26T22:06:51+09:00",
+   "real_end_label": "2025-02-26T22-06-51",
+   "size": "14MB"
+  },
+  {
+   "path": "./files/2025-02-26T23-21-43_watch_dark_souls2.webm",
+   "name": "watch_dark_souls2",
+   "duration": 101.2,
+   "real_duration_label": "1時間24分18秒",
+   "start": "2025-02-26T23:21:43+09:00",
+   "real_start_label": "2025-02-26T23-21-43",
+   "end": "2025-02-27T00:46:01+09:00",
+   "real_end_label": "2025-02-27T00-46-01",
+   "size": "7MB"
+  },
+  {
+   "path": "./files/2025-02-27T19-06-40_watch_dark_souls2.webm",
+   "name": "watch_dark_souls2",
+   "duration": 34.8,
+   "real_duration_label": "0時間28分58秒",
+   "start": "2025-02-27T19:06:40+09:00",
+   "real_start_label": "2025-02-27T19-06-40",
+   "end": "2025-02-27T19:35:38+09:00",
+   "real_end_label": "2025-02-27T19-35-38",
+   "size": "4MB"
+  },
+  {
+   "path": "./files/2025-03-02T11-18-58_watch_dark_souls2.webm",
+   "name": "watch_dark_souls2",
+   "duration": 69.5,
+   "real_duration_label": "0時間57分52秒",
+   "start": "2025-03-02T11:18:58+09:00",
+   "real_start_label": "2025-03-02T11-18-58",
+   "end": "2025-03-02T12:16:50+09:00",
+   "real_end_label": "2025-03-02T12-16-50",
+   "size": "5MB"
+  },
+  {
+   "path": "./files/2025-03-02T13-52-53_watch_dark_souls2.webm",
+   "name": "watch_dark_souls2",
+   "duration": 218.9,
+   "real_duration_label": "3時間2分22秒",
+   "start": "2025-03-02T13:52:53+09:00",
+   "real_start_label": "2025-03-02T13-52-53",
+   "end": "2025-03-02T16:55:15+09:00",
+   "real_end_label": "2025-03-02T16-55-15",
+   "size": "11MB"
+  },
+  {
+   "path": "./files/2025-03-02T19-25-45_watch_dark_souls2.webm",
+   "name": "watch_dark_souls2",
+   "duration": 246,
+   "real_duration_label": "3時間24分58秒",
+   "start": "2025-03-02T19:25:45+09:00",
+   "real_start_label": "2025-03-02T19-25-45",
+   "end": "2025-03-02T22:50:43+09:00",
+   "real_end_label": "2025-03-02T22-50-43",
+   "size": "11MB"
+  },
+  {
+   "path": "./files/2025-03-02T23-49-59_watch_dark_souls2.webm",
+   "name": "watch_dark_souls2",
+   "duration": 84.85,
+   "real_duration_label": "1時間10分40秒",
+   "start": "2025-03-02T23:49:59+09:00",
+   "real_start_label": "2025-03-02T23-49-59",
+   "end": "2025-03-03T01:00:39+09:00",
+   "real_end_label": "2025-03-03T01-00-39",
+   "size": "6MB"
+  },
+  {
+   "path": "./files/2025-03-03T19-31-27_play_minecraft.webm",
+   "name": "play_minecraft",
+   "duration": 95.1,
+   "real_duration_label": "1時間19分12秒",
+   "start": "2025-03-03T19:31:27+09:00",
+   "real_start_label": "2025-03-03T19-31-27",
+   "end": "2025-03-03T20:50:39+09:00",
+   "real_end_label": "2025-03-03T20-50-39",
+   "size": "10MB"
+  },
+  {
+   "path": "./files/2025-03-03T21-00-42_watch_dark_souls2.webm",
+   "name": "watch_dark_souls2",
+   "duration": 182.8,
+   "real_duration_label": "2時間32分18秒",
+   "start": "2025-03-03T21:00:42+09:00",
+   "real_start_label": "2025-03-03T21-00-42",
+   "end": "2025-03-03T23:33:00+09:00",
+   "real_end_label": "2025-03-03T23-33-00",
+   "size": "9MB"
   }
  ]
 }
