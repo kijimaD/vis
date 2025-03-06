@@ -104,7 +104,7 @@ type parseFileResult struct {
 }
 
 func parseFileName(raw string) (parseFileResult, error) {
-	const fileRegexp = `^(?P<date>\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2})_(?P<name>.+?)\.webm$`
+	const fileRegexp = `^(?P<date>\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2})__(?P<name>.+?)\.webm$`
 	re, err := regexp.Compile(fileRegexp)
 	if err != nil {
 		return parseFileResult{}, err
@@ -115,9 +115,9 @@ func parseFileName(raw string) (parseFileResult, error) {
 	}
 
 	pname := matches[0][re.SubexpIndex("name")]
-	pdate := matches[0][re.SubexpIndex("date")]
+	pname = strings.Replace(pname, "_", " ", -1)
 	result := parseFileResult{
-		path: fmt.Sprintf("./files/%s_%s.webm", pdate, pname),
+		path: fmt.Sprintf("./files/%s", raw),
 		name: pname,
 	}
 

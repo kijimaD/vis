@@ -8,7 +8,7 @@ import (
 )
 
 func TestGetWebMDuration(t *testing.T) {
-	result, err := getFFProbeInfo("./testdata/2025-02-24T13-17-51_サンプル.webm")
+	result, err := getFFProbeInfo("./testdata/2025-02-24T13-17-51__サンプル.webm")
 	assert.NoError(t, err)
 
 	jst, err := time.LoadLocation("Asia/Tokyo")
@@ -31,7 +31,7 @@ func TestApplyDir(t *testing.T) {
 	expect := Info{
 		Files: []VideoInfo{
 			VideoInfo{
-				Path:              "./files/2025-02-24T13-17-51_サンプル.webm",
+				Path:              "./files/2025-02-24T13-17-51__サンプル.webm",
 				Name:              "サンプル",
 				Duration:          0.5,
 				RealDurationLabel: "0時間0分24秒",
@@ -47,9 +47,16 @@ func TestApplyDir(t *testing.T) {
 }
 
 func TestParseFileName(t *testing.T) {
-	result, err := parseFileName("2025-02-23T21-59-41_ダークソウル3実況を見る.webm")
-	assert.NoError(t, err)
-	assert.Equal(t, "ダークソウル3実況を見る", result.name)
+	{
+		result, err := parseFileName("2025-02-23T21-59-41__ダークソウル3実況を見る.webm")
+		assert.NoError(t, err)
+		assert.Equal(t, "ダークソウル3実況を見る", result.name)
+	}
+	{
+		result, err := parseFileName("2025-02-23T21-59-41__watch_darksouls3.webm")
+		assert.NoError(t, err)
+		assert.Equal(t, "watch darksouls3", result.name)
+	}
 }
 
 func TestDuration(t *testing.T) {
